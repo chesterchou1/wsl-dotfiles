@@ -1,0 +1,197 @@
+# Yazi keymap — vim-ish, with a few quality-of-life extras.
+
+[[mgr.prepend_keymap]]
+on   = "<Esc>"
+run  = "escape"
+desc = "Exit visual/search/filter mode"
+
+[[mgr.prepend_keymap]]
+on   = "q"
+run  = "quit"
+desc = "Quit"
+
+[[mgr.prepend_keymap]]
+on   = "Q"
+run  = "quit --no-cwd-file"
+desc = "Quit without writing cwd"
+
+# --- Navigation ------------------------------------------------------------
+[[mgr.prepend_keymap]]
+on   = "h"
+run  = "leave"
+desc = "Go back to parent"
+
+[[mgr.prepend_keymap]]
+on   = "l"
+run  = "plugin smart-enter"
+desc = "Enter dir or open file"
+
+[[mgr.prepend_keymap]]
+on   = "<Enter>"
+run  = "plugin smart-enter"
+desc = "Enter dir or open file"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "h" ]
+run  = "cd ~"
+desc = "cd ~"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "c" ]
+run  = "cd ~/.config"
+desc = "cd ~/.config"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "t" ]
+run  = "cd /tmp"
+desc = "cd /tmp"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "d" ]
+run  = "cd ~/Downloads"
+desc = "cd ~/Downloads"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "/" ]
+run  = "cd /"
+desc = "cd /"
+
+# --- File ops --------------------------------------------------------------
+[[mgr.prepend_keymap]]
+on   = "<C-n>"
+run  = 'shell -- ya pub dds-cd --str "$(pwd)"'
+desc = "Sync cwd from external"
+
+[[mgr.prepend_keymap]]
+on   = "y"
+run  = [ "yank", 'shell -- echo "$@" | clip.exe' ]
+desc = "Copy file(s) + path to Windows clipboard"
+
+[[mgr.prepend_keymap]]
+on   = "Y"
+run  = "yank"
+desc = "Copy file(s)"
+
+[[mgr.prepend_keymap]]
+on   = "x"
+run  = "yank --cut"
+desc = "Cut file(s)"
+
+[[mgr.prepend_keymap]]
+on   = "p"
+run  = "paste"
+desc = "Paste"
+
+[[mgr.prepend_keymap]]
+on   = "P"
+run  = "paste --force"
+desc = "Paste (overwrite)"
+
+[[mgr.prepend_keymap]]
+on   = "D"
+run  = "remove"
+desc = "Trash"
+
+[[mgr.prepend_keymap]]
+on   = "<C-d>"
+run  = "remove --permanently"
+desc = "Delete permanently"
+
+[[mgr.prepend_keymap]]
+on   = "a"
+run  = "create"
+desc = "Create file/dir (end with / for dir)"
+
+[[mgr.prepend_keymap]]
+on   = "r"
+run  = "rename --cursor=before_ext"
+desc = "Rename"
+
+# --- View toggles ----------------------------------------------------------
+[[mgr.prepend_keymap]]
+on   = "."
+run  = "hidden toggle"
+desc = "Toggle hidden files"
+
+[[mgr.prepend_keymap]]
+on   = [ ",", "s" ]
+run  = "linemode size"
+desc = "Linemode: size"
+
+[[mgr.prepend_keymap]]
+on   = [ ",", "m" ]
+run  = "linemode mtime"
+desc = "Linemode: mtime"
+
+[[mgr.prepend_keymap]]
+on   = [ ",", "p" ]
+run  = "linemode permissions"
+desc = "Linemode: permissions"
+
+[[mgr.prepend_keymap]]
+on   = [ ",", "n" ]
+run  = "linemode none"
+desc = "Linemode: none"
+
+# --- Search / filter -------------------------------------------------------
+[[mgr.prepend_keymap]]
+on   = "/"
+run  = "find --smart"
+desc = "Find (smart)"
+
+[[mgr.prepend_keymap]]
+on   = "f"
+run  = "filter --smart"
+desc = "Filter (smart)"
+
+[[mgr.prepend_keymap]]
+on   = "F"
+run  = 'plugin smart-filter'
+desc = "Smart filter"
+
+[[mgr.prepend_keymap]]
+on   = "s"
+run  = "search fd"
+desc = "Search files by name (fd)"
+
+[[mgr.prepend_keymap]]
+on   = "S"
+run  = "search rg"
+desc = "Search files by content (rg)"
+
+# --- Tabs ------------------------------------------------------------------
+[[mgr.prepend_keymap]]
+on   = "t"
+run  = "tab_create --current"
+desc = "New tab in cwd"
+
+[[mgr.prepend_keymap]]
+on   = "<Tab>"
+run  = "tab_switch --relative 1"
+desc = "Next tab"
+
+[[mgr.prepend_keymap]]
+on   = "<BackTab>"
+run  = "tab_switch --relative -1"
+desc = "Prev tab"
+
+# --- Shell / drop to terminal ----------------------------------------------
+[[mgr.prepend_keymap]]
+on   = "!"
+run  = 'shell "$SHELL" --block'
+desc = "Open shell here"
+
+[[mgr.prepend_keymap]]
+on   = "o"
+run  = "open"
+desc = "Open"
+
+[[mgr.prepend_keymap]]
+on   = "O"
+run  = "open --interactive"
+desc = "Open with…"
+
+[[mgr.prepend_keymap]]
+on   = "e"
+run  = 'shell "nvim $0" --block --confirm'
+desc = "Edit in nvim"

@@ -1,0 +1,209 @@
+# Google Material dark — matches WezTerm + tmux acrylic theme.
+# Palette:
+#   bg0  #1e1f22   base
+#   bg1  #2a2b2f   glass mid-layer
+#   bg2  #3c4043   glass highlight
+#   fg0  #e8eaed   text
+#   fg1  #9aa0a6   dim text
+#   fg2  #5f6368   dimmest
+#   blue #8ab4f8   accent
+#   grn  #81c995   ok / added
+#   ylw  #fdd663   warn / modified
+#   red  #f28b82   error / deleted
+#   mag  #c58af9   special
+#   cyn  #78d9ec   info
+
+[mgr]
+cwd = { fg = "#8ab4f8", bold = true }
+
+# Hovered
+hovered         = { fg = "#1e1f22", bg = "#8ab4f8", bold = true }
+preview_hovered = { underline = true }
+
+# Find
+find_keyword  = { fg = "#fdd663", bold = true, italic = true }
+find_position = { fg = "#c58af9", bg = "reset", italic = true }
+
+# Marker
+marker_copied   = { fg = "#81c995", bg = "#81c995" }
+marker_cut      = { fg = "#f28b82", bg = "#f28b82" }
+marker_marked   = { fg = "#78d9ec", bg = "#78d9ec" }
+marker_selected = { fg = "#fdd663", bg = "#fdd663" }
+
+# Tab
+tab_active   = { fg = "#1e1f22", bg = "#8ab4f8", bold = true }
+tab_inactive = { fg = "#9aa0a6", bg = "#2a2b2f" }
+tab_width    = 1
+
+# Count
+count_copied   = { fg = "#1e1f22", bg = "#81c995" }
+count_cut      = { fg = "#1e1f22", bg = "#f28b82" }
+count_selected = { fg = "#1e1f22", bg = "#fdd663" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#3c4043" }
+
+# Highlighting
+syntect_theme = ""
+
+[mode]
+normal_main = { fg = "#1e1f22", bg = "#8ab4f8", bold = true }
+normal_alt  = { fg = "#8ab4f8", bg = "#2a2b2f" }
+
+select_main = { fg = "#1e1f22", bg = "#fdd663", bold = true }
+select_alt  = { fg = "#fdd663", bg = "#2a2b2f" }
+
+unset_main  = { fg = "#1e1f22", bg = "#f28b82", bold = true }
+unset_alt   = { fg = "#f28b82", bg = "#2a2b2f" }
+
+[status]
+separator_open  = ""
+separator_close = ""
+separator_style = { fg = "#2a2b2f", bg = "#1e1f22" }
+
+# Progress
+progress_label  = { fg = "#ffffff", bold = true }
+progress_normal = { fg = "#8ab4f8", bg = "#2a2b2f" }
+progress_error  = { fg = "#f28b82", bg = "#2a2b2f" }
+
+# Permissions
+perm_type  = { fg = "#8ab4f8" }
+perm_read  = { fg = "#fdd663" }
+perm_write = { fg = "#f28b82" }
+perm_exec  = { fg = "#81c995" }
+perm_sep   = { fg = "#5f6368" }
+
+# Owner
+owner_user  = { fg = "#e8eaed" }
+owner_group = { fg = "#9aa0a6" }
+
+[select]
+border   = { fg = "#8ab4f8" }
+active   = { fg = "#fdd663" }
+inactive = {}
+
+[input]
+border   = { fg = "#8ab4f8" }
+title    = {}
+value    = {}
+selected = { reversed = true }
+
+[confirm]
+border    = { fg = "#8ab4f8" }
+title     = { fg = "#8ab4f8" }
+content   = {}
+list      = {}
+btn_yes   = { reversed = true }
+btn_no    = {}
+btn_labels = [ "  [Y]es  ", "  [N]o  " ]
+
+[pick]
+border   = { fg = "#8ab4f8" }
+active   = { fg = "#fdd663" }
+inactive = {}
+
+[spot]
+border   = { fg = "#8ab4f8" }
+title    = { fg = "#8ab4f8" }
+tbl_cell = { fg = "#fdd663", reversed = true }
+tbl_col  = { bold = true }
+
+[notify]
+title_info = { fg = "#78d9ec" }
+title_warn = { fg = "#fdd663" }
+title_error = { fg = "#f28b82" }
+
+[help]
+on      = { fg = "#81c995" }
+run     = { fg = "#78d9ec" }
+desc    = { fg = "#9aa0a6" }
+hovered = { bg = "#3c4043", bold = true }
+footer  = { fg = "#e8eaed", bg = "#1e1f22" }
+
+[filetype]
+rules = [
+  # Images
+  { mime = "image/*",             fg = "#c58af9" },
+  # Videos
+  { mime = "video/*",             fg = "#fdd663" },
+  # Audio
+  { mime = "audio/*",             fg = "#fdd663" },
+  # Archives
+  { mime = "application/zip",            fg = "#f28b82" },
+  { mime = "application/gzip",           fg = "#f28b82" },
+  { mime = "application/x-tar",          fg = "#f28b82" },
+  { mime = "application/x-bzip",         fg = "#f28b82" },
+  { mime = "application/x-bzip2",        fg = "#f28b82" },
+  { mime = "application/x-7z-compressed", fg = "#f28b82" },
+  { mime = "application/x-rar",          fg = "#f28b82" },
+  { mime = "application/xz",             fg = "#f28b82" },
+  # Executables
+  { mime = "application/*executable*",   fg = "#81c995" },
+  { mime = "application/*sharedlib*",    fg = "#81c995" },
+  # Documents
+  { mime = "application/pdf",            fg = "#78d9ec" },
+  # Directory / fallback
+  { name  = "*/",                        fg = "#8ab4f8", bold = true },
+  { name  = "*",                         fg = "#e8eaed" },
+]
+
+[icon]
+globs = []
+
+rules = [
+  # Directories
+  { name = ".git/",         text = "" },
+  { name = ".github/",      text = "" },
+  { name = "Desktop/",      text = "" },
+  { name = "Documents/",    text = "" },
+  { name = "Downloads/",    text = "" },
+  { name = "Music/",        text = "" },
+  { name = "Pictures/",     text = "" },
+  { name = "Videos/",       text = "" },
+  { name = "node_modules/", text = "" },
+  { name = "*/",            text = "" },
+
+  # Files by name
+  { name = ".bashrc",       text = "" },
+  { name = ".zshrc",        text = "" },
+  { name = "Dockerfile",    text = "" },
+  { name = "Makefile",      text = "" },
+  { name = "README*",       text = "" },
+  { name = "LICENSE*",      text = "" },
+  { name = ".gitignore",    text = "" },
+
+  # Files by extension
+  { name = "*.md",          text = "" },
+  { name = "*.txt",         text = "" },
+  { name = "*.json",        text = "" },
+  { name = "*.toml",        text = "" },
+  { name = "*.yaml",        text = "" },
+  { name = "*.yml",         text = "" },
+  { name = "*.lua",         text = "" },
+  { name = "*.py",          text = "" },
+  { name = "*.rs",          text = "" },
+  { name = "*.go",          text = "" },
+  { name = "*.js",          text = "" },
+  { name = "*.ts",          text = "" },
+  { name = "*.tsx",         text = "" },
+  { name = "*.jsx",         text = "" },
+  { name = "*.html",        text = "" },
+  { name = "*.css",         text = "" },
+  { name = "*.sh",          text = "" },
+  { name = "*.zip",         text = "" },
+  { name = "*.tar",         text = "" },
+  { name = "*.gz",          text = "" },
+  { name = "*.7z",          text = "" },
+  { name = "*.pdf",         text = "" },
+  { name = "*.png",         text = "" },
+  { name = "*.jpg",         text = "" },
+  { name = "*.jpeg",        text = "" },
+  { name = "*.gif",         text = "" },
+  { name = "*.mp4",         text = "" },
+  { name = "*.mkv",         text = "" },
+  { name = "*.mp3",         text = "" },
+
+  # Fallback
+  { name = "*",             text = "" },
+]
