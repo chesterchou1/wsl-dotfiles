@@ -20,17 +20,36 @@ RESET="#[default]"
 
 out=""
 
-# --- Git segment (only when inside a work tree) -----------------------------
-if cd "$cwd" 2>/dev/null && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
-  # Dirty indicator
-  if [[ -n "$(git status --porcelain 2>/dev/null)" ]]; then
-    dirty=" ✗"
-  else
-    dirty=""
+# --- Git segment (cached to avoid repeated subprocess calls) ----------------
+# Cache git info for 10 seconds per working directory to prevent lag in large repos.
+_git_cache_dir="/tmp/tmux-git-cache"
+mkdir -p "$_git_cache_dir" 2>/dev/null
+_git_cache_key=$(printf '%s' "$cwd" | md5sum | cut -d' ' -f1)
+_git_cache_file="$_git_cache_dir/$_git_cache_key"
+
+_cache_fresh=0
+if [[ -f "$_git_cache_file" ]]; then
+  _cache_age=$(( $(date +%s) - $(stat -c%Y "$_git_cache_file") ))
+  (( _cache_age < 10 )) && _cache_fresh=1
+fi
+
+if (( _cache_fresh )); then
+  out+=$(cat "$_git_cache_file")
+else
+  _git_seg=""
+  if cd "$cwd" 2>/dev/null && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
+    # Dirty indicator (limit scope for speed)
+    if [[ -n "$(git status --porcelain -uno 2>/dev/null | head -1)" ]]; then
+      dirty=" ✗"
+    else
+      dirty=""
+    fi
+    commit=$(git log -1 --format='%s' 2>/dev/null | cut -c1-25)
+    _git_seg="${FG_BRANCH} ${branch}${dirty} ${FG_DIM}· ${FG_COMMIT}${commit} ${FG_DIM}│ "
   fi
-  commit=$(git log -1 --format='%s' 2>/dev/null | cut -c1-25)
-  out+="${FG_BRANCH} ${branch}${dirty} ${FG_DIM}· ${FG_COMMIT}${commit} ${FG_DIM}│ "
+  printf '%s' "$_git_seg" > "$_git_cache_file"
+  out+="$_git_seg"
 fi
 
 # --- Battery segment --------------------------------------------------------

@@ -217,7 +217,7 @@ config.quick_select_patterns = {
 -- Smart Key Passthrough for nvim (with caching to prevent freezes)
 -- ============================================================================
 local vim_cache = {}
-local cache_timeout = 500 -- ms
+local cache_timeout = 2000 -- ms (longer cache avoids repeated process lookups)
 
 local function is_vim(pane)
   local pane_id = pane:pane_id()
@@ -256,7 +256,7 @@ wezterm.on('activate-pane-up', function(window, pane) conditional_activate_pane(
 wezterm.on('activate-pane-right', function(window, pane) conditional_activate_pane(window, pane, 'Right', 'l') end)
 
 -- ============================================================================
--- Leader Key (Ctrl+a like tmux)
+-- Leader Key (Ctrl+b — distinct from tmux's Ctrl+a)
 -- ============================================================================
 config.leader = { key = 'b', mods = 'CTRL', timeout_milliseconds = 1500 }
 

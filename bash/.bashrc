@@ -8,8 +8,12 @@ case $- in
       *) return;;
 esac
 
-# ── ble.sh early init (must be before other config) ──
-[[ -f ~/.local/share/blesh/ble.sh ]] && source ~/.local/share/blesh/ble.sh --noattach
+# ── ble.sh early init (lazy: only load when BLE_ENABLE=1) ──
+# ble.sh adds ~300-500ms to shell startup. Disabled by default for speed.
+# Enable per-session with: BLE_ENABLE=1 bash
+if [[ "${BLE_ENABLE:-0}" == "1" && -f ~/.local/share/blesh/ble.sh ]]; then
+  source ~/.local/share/blesh/ble.sh --noattach
+fi
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -90,10 +94,7 @@ fi
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+# (ls aliases removed — overridden by eza aliases below)
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -118,32 +119,33 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# ── Homebrew ──
+if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 
-# ── Fix Windows PATH interop (spaces in paths cause errors) ──
-if [ -n "$WSL_DISTRO_NAME" ]; then
+# ── Fix Windows PATH interop (strip /mnt/c paths that cause errors) ──
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
   clean_path=""
   IFS=':' read -ra _segs <<< "$PATH"
   for _s in "${_segs[@]}"; do
     case "$_s" in /mnt/c/*) ;; *) clean_path="${clean_path:+$clean_path:}$_s" ;; esac
   done
-  export PATH="$clean_path"
+  export PATH="$clean_path:/mnt/c/Windows/system32"
   unset clean_path _segs _s
-  # Keep only essential Windows binaries accessible via /mnt/c
-  export PATH="$PATH:/mnt/c/Windows:/mnt/c/Windows/system32"
 fi
 
-# ── Zoxide (smart cd / jump) ──
-eval "$(zoxide init bash)"
+# ── SSH Agent (start once per session) ──
+if [[ -z "$SSH_AUTH_SOCK" ]]; then
+  eval "$(ssh-agent -s)" >/dev/null 2>&1
+fi
+export GPG_TTY=$(tty)
 
-# ── fzf (fuzzy finder) ──
-eval "$(fzf --bash)"
-
-# ── Atuin (better shell history, replaces Ctrl+R) ──
-eval "$(atuin init bash --disable-up-arrow)"
-
-# ── Starship prompt ──
-eval "$(starship init bash)"
+# ── Tool init (with guard clauses) ──
+command -v zoxide  >/dev/null && eval "$(zoxide init bash)"
+command -v fzf     >/dev/null && eval "$(fzf --bash)"
+command -v atuin   >/dev/null && eval "$(atuin init bash --disable-up-arrow)"
+command -v starship >/dev/null && eval "$(starship init bash)"
 
 # ── Modern aliases ──
 alias ls='eza --icons --group-directories-first'
@@ -160,7 +162,7 @@ alias cx='codex'
 wl() { python3 /mnt/c/Users/chester_chou/workspace/work-logger/work_logger.py "$@"; }
 
 
-# ── ble.sh attach (must be last) ──
+# ── ble.sh attach (must be last, only if loaded) ──
 [[ ${BLE_VERSION-} ]] && ble-attach
 
 # tmux session picker (fzf): kill multiple
