@@ -162,6 +162,10 @@ alias cx='codex'
 wl() { python3 /mnt/c/Users/chester_chou/workspace/work-logger/work_logger.py "$@"; }
 
 
+# ── Per-user overrides (git identity, work aliases, env vars) ──
+# Create ~/.bashrc.local on each user account for user-specific config.
+[[ -f ~/.bashrc.local ]] && source ~/.bashrc.local
+
 # ── ble.sh attach (must be last, only if loaded) ──
 [[ ${BLE_VERSION-} ]] && ble-attach
 
