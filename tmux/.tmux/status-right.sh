@@ -15,7 +15,7 @@ FG_COMMIT="#[fg=#50C878]"
 FG_BAT_OK="#[fg=#50C878]"
 FG_BAT_MID="#[fg=#E0C060]"
 FG_BAT_LOW="#[fg=#F08090]"
-FG_BAT_CHG="#[fg=#5A9BCF]"
+FG_BAT_CHG="#[fg=#58A6FF]"
 RESET="#[default]"
 
 out=""
