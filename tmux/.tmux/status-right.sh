@@ -7,15 +7,15 @@
 set -u
 cwd="${1:-$PWD}"
 
-# Palette (Google Material dark — matches WezTerm)
-FG_DIM="#[fg=#5f6368]"
-FG_MUTED="#[fg=#9aa0a6]"
-FG_BRANCH="#[fg=#f28b82]"
-FG_COMMIT="#[fg=#81c995]"
-FG_BAT_OK="#[fg=#81c995]"
-FG_BAT_MID="#[fg=#fdd663]"
-FG_BAT_LOW="#[fg=#f28b82]"
-FG_BAT_CHG="#[fg=#8ab4f8]"
+# Palette (Windows Terminal "Google Dark" scheme)
+FG_DIM="#[fg=#606060]"
+FG_MUTED="#[fg=#A0A0A0]"
+FG_BRANCH="#[fg=#E06070]"
+FG_COMMIT="#[fg=#50C878]"
+FG_BAT_OK="#[fg=#50C878]"
+FG_BAT_MID="#[fg=#E0C060]"
+FG_BAT_LOW="#[fg=#F08090]"
+FG_BAT_CHG="#[fg=#5A9BCF]"
 RESET="#[default]"
 
 out=""
