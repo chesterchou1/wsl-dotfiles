@@ -222,6 +222,7 @@ Leader key is `Ctrl+b`. Press the leader, release, then press the action key wit
 | `Leader + g` | Quick select and copy git hash |
 | `Ctrl+Shift+f` | Search |
 | `Ctrl+Shift+c` | Copy to clipboard |
+| `Ctrl+Shift+s` | Save Windows clipboard image to `./pasted-shot-*.png` |
 | `Ctrl+Shift+v` / `Ctrl+v` | Paste from clipboard |
 
 ### Copy Mode (Vi) Motions

@@ -371,6 +371,7 @@ config.keys = {
   -- Search & Copy
   { key = 'f', mods = 'CTRL|SHIFT', action = act.Search 'CurrentSelectionOrEmptyString' },
   { key = 'c', mods = 'CTRL|SHIFT', action = act.CopyTo 'Clipboard' },
+  { key = 's', mods = 'CTRL|SHIFT', action = act.SendString 'paste-shot\n' },
   { key = 'v', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' },
   { key = 'v', mods = 'CTRL', action = act.PasteFrom 'Clipboard' },
 
