@@ -23,6 +23,9 @@ echo "=== tmux ==="
 link "$DOTFILES_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
 link "$DOTFILES_DIR/tmux/.tmux/status-right.sh" "$HOME/.tmux/status-right.sh"
 
+echo "=== herdr ==="
+link "$DOTFILES_DIR/herdr/config.toml" "$HOME/.config/herdr/config.toml"
+
 echo "=== starship ==="
 link "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 

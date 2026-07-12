@@ -1,0 +1,13 @@
+# herdr configuration — full option reference: `herdr --default-config`
+
+[theme]
+# "terminal" follows the outer terminal's own palette (WT Google Dark) —
+# same alignment philosophy as the tmux status bar
+name = "terminal"
+
+[keys]
+# Same prefix muscle memory as tmux (C-a)
+prefix = "ctrl+a"
+
+[ui]
+agent_panel_sort = "priority"
