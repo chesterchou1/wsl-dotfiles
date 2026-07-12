@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# tmux status-right segments: git (conditional) + battery (conditional).
+# tmux status-right segments: git (conditional) + battery.
 # One shell invocation instead of several, faster + cleaner.
 #
 # Rhythm rule: every optional segment prints its own trailing "│ ", so
@@ -56,8 +56,10 @@ else
   out+="$_git_seg"
 fi
 
-# --- Battery segment: only speaks when it matters ----------------------------
-# Docked and healthy (Full, or Charging ≥90%) → say nothing.
+# --- Battery segment ----------------------------------------------------------
+# Always visible. On AC (Full / Charging / ThinkPad "Not charging") the plug
+# icon shows in neutral grey — blue stays reserved for copy/zoom. The color
+# ramp only speaks while discharging.
 bat_dir=""
 for d in /sys/class/power_supply/BAT*; do
   [[ -d "$d" ]] && bat_dir="$d" && break
@@ -67,37 +69,28 @@ if [[ -n "$bat_dir" ]]; then
   cap=$(<"$bat_dir/capacity")
   status=$(<"$bat_dir/status")
 
-  show=0
-  case "$status" in
-    Discharging) show=1 ;;
-    Charging)    (( cap < 90 )) && show=1 ;;
-    *) ;;  # Full / "Not charging" (ThinkPad threshold) / Unknown → on AC, healthy
-  esac
-
-  if (( show )); then
-    # Icon ramp — nf-md-battery_*
-    if [[ "$status" == "Charging" ]]; then
-      icon="󰂄"
-      color="$FG_BAT_CHG"
-    else
-      if   (( cap >= 90 )); then icon="󰁹"
-      elif (( cap >= 80 )); then icon="󰂂"
-      elif (( cap >= 70 )); then icon="󰂁"
-      elif (( cap >= 60 )); then icon="󰂀"
-      elif (( cap >= 50 )); then icon="󰁿"
-      elif (( cap >= 40 )); then icon="󰁾"
-      elif (( cap >= 30 )); then icon="󰁽"
-      elif (( cap >= 20 )); then icon="󰁼"
-      elif (( cap >= 10 )); then icon="󰁻"
-      else                       icon="󰁺"
-      fi
-      if   (( cap >= 50 )); then color="$FG_BAT_OK"
-      elif (( cap >= 20 )); then color="$FG_BAT_MID"
-      else                       color="$FG_BAT_LOW"
-      fi
+  # Icon ramp — nf-md-battery_*
+  if [[ "$status" != "Discharging" ]]; then
+    icon="󰂄"
+    color="$FG_BAT_CHG"
+  else
+    if   (( cap >= 90 )); then icon="󰁹"
+    elif (( cap >= 80 )); then icon="󰂂"
+    elif (( cap >= 70 )); then icon="󰂁"
+    elif (( cap >= 60 )); then icon="󰂀"
+    elif (( cap >= 50 )); then icon="󰁿"
+    elif (( cap >= 40 )); then icon="󰁾"
+    elif (( cap >= 30 )); then icon="󰁽"
+    elif (( cap >= 20 )); then icon="󰁼"
+    elif (( cap >= 10 )); then icon="󰁻"
+    else                       icon="󰁺"
     fi
-    out+="${color}${icon} ${cap}%${RESET} ${SEP}"
+    if   (( cap >= 50 )); then color="$FG_BAT_OK"
+    elif (( cap >= 20 )); then color="$FG_BAT_MID"
+    else                       color="$FG_BAT_LOW"
+    fi
   fi
+  out+="${color}${icon} ${cap}%${RESET} ${SEP}"
 fi
 
 printf '%s' "$out"
