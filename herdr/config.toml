@@ -1,13 +1,80 @@
-# herdr configuration — full option reference: `herdr --default-config`
+# herdr — Google Dark / Pantone 802 frost system
+# Sibling of the tmux status bar: terminal-inherited palette, one neon accent,
+# constant anchors (nothing vanishes), alerts as triggers not interruptions.
+# Full option reference: `herdr --default-config`
+
+# Notification posture is decided below — skip the first-run chooser.
+onboarding = false
 
 [theme]
-# "terminal" follows the outer terminal's own palette (WT Google Dark) —
-# same alignment philosophy as the tmux status bar
+# Inherit the WT "Google Dark" ANSI palette — same alignment philosophy as
+# the tmux bar. Greys/reds/greens flow from the terminal scheme, so retuning
+# Google Dark retunes herdr for free.
 name = "terminal"
 
+[theme.custom]
+# The only two tokens that earn an override:
+# 1) No painted panel slabs — WT's 85% acrylic shows through
+#    (the herdr equivalent of the tmux bar's bg=default rule).
+panel_bg = "reset"
+# 2) Pantone 802 C, set once at the token layer. [ui].accent stays unset so
+#    color has a single owner. If any chrome still renders cyan, this build
+#    resolves [ui].accent first — move the value there and delete this line.
+accent = "#44D62C"
+
 [keys]
-# Same prefix muscle memory as tmux (C-a)
+# Same prefix muscle memory as tmux (separate WT tab, no chord conflict).
+# Everything else stays default — herdr already speaks the tmux dialect:
+# h/j/k/l pane focus, c new tab, z zoom.
 prefix = "ctrl+a"
 
 [ui]
+# Attention queue, not a map: herdr ranks which agent needs a human next,
+# so nobody scans a fleet looking for the blocked one.
 agent_panel_sort = "priority"
+
+# Doctrine, written down (defaults agree today; the config owns the decision):
+# anchors never vanish. Tab bar stays with one tab...
+hide_tab_bar_when_single_tab = false
+# ...and a collapsed sidebar keeps the compact status rail, never zero width —
+# agent state stays ambient even when the space is reclaimed.
+sidebar_collapsed_mode = "compact"
+
+# Which agent is in which pane, read from the frame itself — information on
+# an existing border line is free glanceability (the ·cmd suffix, herdr edition).
+show_agent_labels_on_pane_borders = true
+
+# Frost geometry: gaps between panes are acrylic showing through, so splits
+# read as floating cards; borders carry the accent, so active pane = green
+# frame, matching the tmux state language.
+pane_borders = true
+pane_gaps = true
+
+# Tabs are cheap; names are earned. Create instantly with a generated name,
+# rename (prefix+shift+t) when a tab develops an identity. Friction belongs
+# at destruction (confirm_close stays default-on), not at creation.
+prompt_new_tab_name = false
+
+# You bounce between the tmux tab and this one all day — don't flash a full
+# repaint on every return. Trade-off: rare host-surface corruption persists
+# until the next full redraw; if it ever shows up, flip this back to true.
+redraw_on_focus_gained = false
+
+[ui.toast]
+# Trigger, not interruption: quiet in-app toasts when you're already looking.
+# Never "system" — no OS popups sliding over real work in the other tab.
+delivery = "herdr"
+
+[ui.toast.herdr]
+# Periphery corner, same logic as the tmux bar's right side — ambient info
+# lives at the edge, the workspace keeps the center.
+position = "bottom-right"
+
+[ui.sound]
+# The away-case channel: one ping when a *background* agent finishes or
+# blocks. It closes the "is it done yet?" open loop so it isn't held in
+# working memory — the alternative is compulsive tab-polling, which is worse.
+# Per-agent mute exists if one gets chatty:
+#   [ui.sound.agents]
+#   codex = "off"
+enabled = true
