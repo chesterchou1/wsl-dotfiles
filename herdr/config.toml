@@ -28,8 +28,8 @@ prefix = "ctrl+a"
 # Accent for highlights, borders, and navigation chrome. Lives here (not
 # theme.custom) because this build resolves [ui].accent first — verified:
 # the theme.custom token left the chrome cyan. Softened from Pantone 802 C
-# neon to the terminal scheme's emerald green.
-accent = "#50C878"
+# neon to the terminal scheme's brightGreen #70E898.
+accent = "#70E898"
 
 # Attention queue, not a map: herdr ranks which agent needs a human next,
 # so nobody scans a fleet looking for the blocked one.
